@@ -18,6 +18,8 @@ services:
     # 현 서비스를 열기 전 열어야 할 서비스
     depends_on:
       - database
+    environment: 
+      - DBHOST=backend
   frontend:
     build: ./frontend
     # 연결할 외부 디렉토리 : 컨테이너 내 디렉토리

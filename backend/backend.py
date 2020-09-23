@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flaskext.mysql import MySQL
@@ -12,10 +13,7 @@ app.config['MYSQL_DATABASE_USER'] = 'mysql_user'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'mysql_password'
 app.config['MYSQL_DATABASE_DB'] = 'visitlog'
 
-# Dockerfile 실습시
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-# docker-compose 실습시
-app.config['MYSQL_DATABASE_HOST'] = 'database'
+app.config['MYSQL_DATABASE_HOST'] = os.getenv('DBHOST', 'localhost') 
 
 mysql.init_app(app)
 
