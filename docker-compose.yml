@@ -19,7 +19,7 @@ services:
     depends_on:
       - database
     environment: 
-      - DBHOST=backend
+      - DBHOST=database
   frontend:
     build: ./frontend
     # 연결할 외부 디렉토리 : 컨테이너 내 디렉토리
