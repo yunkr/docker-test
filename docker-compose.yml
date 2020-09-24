@@ -15,9 +15,6 @@ services:
       - ./backend:/usr/src/app
     ports:
       - "5000:5000"
-    # 현 서비스를 열기 전 열어야 할 서비스
-    depends_on:
-      - database
     environment: 
       - DBHOST=database
   frontend:
@@ -27,6 +24,3 @@ services:
       - ./frontend:/home/node/app
     ports:
       - "8080:8080"
-    # 현 서비스를 열기 전 열어야 할 서비스
-    depends_on:
-      - backend
