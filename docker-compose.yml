@@ -1,8 +1,6 @@
 version: '3'
 services:
   database:
-    # 컨테이너명
-    container_name: database
     # Dockerfile이 있는 위치
     build: ./database
     # 내부에서 개방할 포트 : 외부에서 접근할 포트
@@ -15,6 +13,7 @@ services:
       - ./backend:/usr/src/app
     ports:
       - "5000:5000"
+    # 환경변수 설정
     environment: 
       - DBHOST=database
   frontend:
