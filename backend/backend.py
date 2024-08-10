@@ -1,7 +1,8 @@
 import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from flaskext.mysql import MySQL
+# from flaskext.mysql import MySQL
+from flask_mysqldb import MySQL
 
 app = Flask(__name__)
 CORS(app)
@@ -9,11 +10,11 @@ mysql = MySQL()
 
 # 실전에서는 비밀번호 등을 이곳에 입력하지 말 것!
 # 환경변수 등을 활용하세요.
-app.config['MYSQL_DATABASE_USER'] = 'mysql_user'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'mysql_password'
-app.config['MYSQL_DATABASE_DB'] = 'visitlog'
+app.config['MYSQL_USER'] = 'mysql_user'
+app.config['MYSQL_PASSWORD'] = 'mysql_password'
+app.config['MYSQL_DB'] = 'visitlog'
 
-app.config['MYSQL_DATABASE_HOST'] = os.getenv('DBHOST', 'localhost') 
+app.config['MYSQL_HOST'] = os.getenv('DBHOST', 'database') 
 
 mysql.init_app(app)
 
@@ -23,7 +24,8 @@ def index():
 
 @app.route('/visits', methods=['GET'])
 def readVisit():
-    cur = mysql.connect().cursor()
+    # cur = mysql.connect().cursor()
+    cur = mysql.connection.cursor()
     cur.execute('''SELECT * FROM visits''')
     r = [dict((cur.description[i][0], value)
       for i, value in enumerate(row)) for row in cur.fetchall()]
@@ -34,9 +36,12 @@ def writeVisit():
   try:
     _name = request.json['name']
     if _name and request.method == 'POST':
-      sqlQuery = "INSERT visits(visitor_name) VALUES(%s)"
-      bindData = (_name)
-      conn = mysql.connect()
+      # sqlQuery = "INSERT visits(visitor_name) VALUES(%s)"
+      sqlQuery = "INSERT INTO visits (visitor_name) VALUES (%s)"
+      # bindData = (_name)
+      bindData = (_name,)
+      # conn = mysql.connect()
+      conn = mysql.connection
       cursor = conn.cursor()
       cursor.execute(sqlQuery, bindData)
       conn.commit()
