@@ -7,7 +7,7 @@
 	let nameInput
 
 	const getVisits = () => {
-		axios.get('http://localhost:5000/visits')
+		axios.get('http://192.168.108.128:5000/visits')
 			.then((response) => {
 				visits = response.data.visits
 				backendConnected = true
@@ -17,7 +17,7 @@
 			})
 	}
 	const addVisit = () => {
-		axios.post('http://localhost:5000/visits', {
+		axios.post('http://192.168.108.128:5000/visits', {
 			name: nameInput
 		}).then((response) => {
 			nameInput = ''
